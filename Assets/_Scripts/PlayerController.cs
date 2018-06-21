@@ -17,17 +17,30 @@ public class PlayerController : MonoBehaviour
     public float MaxWalkSpeed;
     public float MaxSprintSpeed;
 
+    public float RotateSpeed;
+
     public Animator Anim; // Animator
+
+    private float FireRate;
 
     private Vector3 IP; // Input vector
 
-    private bool IsSprinting;
+    private Camera cam;
 
-	// Use this for initialization
-	void Start()
+    public GunController gun;
+
+    // Use this for initialization
+    void Start()
     {
         RB = GetComponent<Rigidbody>();
-	}
+
+        cam = GameObject.FindObjectOfType<Camera>();
+
+        if (cam == null)
+        {
+            Debug.Log("No Camera");
+        }
+    }
 
     public void updateAnim()
     {
@@ -37,13 +50,18 @@ public class PlayerController : MonoBehaviour
         Anim.SetFloat("RightSpeed", localVel.x);
     }
 
+    public void mouseInput()
+    {
+        FireRate = Input.GetAxisRaw("Fire1");
+    }
+
     public void keyInput()
     {
         IP.x = Input.GetAxisRaw("Horizontal");
         IP.z = Input.GetAxisRaw("Vertical");
 
         var isMoving = IP.x != 0 || IP.z != 0;
-        IsSprinting = isMoving && Input.GetAxisRaw("Sprint") > 0;
+        bool IsSprinting = isMoving && Input.GetAxisRaw("Sprint") > 0;
 
         MaxSpeed = IsSprinting ? MaxSprintSpeed : MaxWalkSpeed;
         AccelerationSpeed = IsSprinting ? SprintAccelerationSpeed : WalkAccelerationSpeed;
@@ -60,11 +78,37 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void handleFire()
+    {
+        if (FireRate > 0)
+        {
+            gun.Fire();
+        }
+    }
+
+    public void doMouseLook()
+    {
+        RaycastHit hit;
+
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 10000))
+        {
+            Vector3 forward = (transform.position - hit.point).normalized * -1;
+
+            transform.forward = Vector3.MoveTowards(transform.forward, forward, RotateSpeed * Time.deltaTime);
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+        mouseInput();
         keyInput();
         handleMovement();
+        handleFire();
         updateAnim();
+        doMouseLook();
     }
 }
