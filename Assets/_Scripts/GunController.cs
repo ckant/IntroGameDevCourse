@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GunController : MonoBehaviour
 {
-
     public int Mag = 20;
 
     public float FireRate = .1f;
@@ -19,6 +18,9 @@ public class GunController : MonoBehaviour
         {
             GameObject tempBullet = Instantiate(BulletPrefab, transform.position, transform.rotation);
             tempBullet.GetComponent<Rigidbody>().velocity = transform.forward * 100;
+            tempBullet.GetComponent<BulletController>().owner = gameObject;
+
+            Destroy(tempBullet, 5);
             SetFireDelay = FireRate;
             Mag--;
         }

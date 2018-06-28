@@ -106,6 +106,10 @@ public class PlayerController : MonoBehaviour
     {
         mouseInput();
         keyInput();
+    }
+
+    void FixedUpdate()
+    {
         handleMovement();
         handleFire();
         updateAnim();
