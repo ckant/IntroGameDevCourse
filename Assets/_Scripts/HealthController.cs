@@ -46,6 +46,6 @@ public class HealthController : MonoBehaviour
         CurrentDamageTimer = Mathf.MoveTowards(CurrentDamageTimer, 0, Time.deltaTime);
         HealthGen(HealthGenSpeed);
 
-        Debug.Log(Health);
+        //Debug.Log(Health);
     }
 }
