@@ -34,7 +34,7 @@ public class AIMonsterController : MonoBehaviour
         agent.SetDestination(Target.transform.position);
 
         CurrentAttackCooldown = 0;
-	}
+    }
 
     private void updateAnim()
     {
@@ -71,6 +71,9 @@ public class AIMonsterController : MonoBehaviour
             agent.isStopped = false;
         }
 
-        agent.SetDestination(Target.transform.position);
+        if (Target != null)
+        {
+            agent.SetDestination(Target.transform.position);
+        }
     }
 }

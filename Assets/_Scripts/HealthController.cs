@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthController : MonoBehaviour
 {
-    private float Health;
+    private float CurrentHealth;
 
     public float MaxHealth;
 
@@ -13,12 +14,14 @@ public class HealthController : MonoBehaviour
     public float DamageTimer;
     private float CurrentDamageTimer;
 
+    public Image HealthBar;
+
     public void TakeDamage(float DamageAmount)
     {
-        Health = Mathf.MoveTowards(Health, 0, DamageAmount);
+        CurrentHealth = Mathf.MoveTowards(CurrentHealth, 0, DamageAmount);
         CurrentDamageTimer = DamageTimer;
 
-        if (Health == 0)
+        if (CurrentHealth == 0)
         {
             Destroy(gameObject);
         }
@@ -29,14 +32,14 @@ public class HealthController : MonoBehaviour
         if (CurrentDamageTimer == 0)
         {
             float regenAmount = (Speed * Time.deltaTime);
-            Health = Mathf.MoveTowards(Health, MaxHealth, regenAmount);
+            CurrentHealth = Mathf.MoveTowards(CurrentHealth, MaxHealth, regenAmount);
         }
     }
 
     // Use this for initialization
     void Start()
     {
-        Health = MaxHealth;
+        CurrentHealth = MaxHealth;
         CurrentDamageTimer = 0;
     }
 	
@@ -45,6 +48,11 @@ public class HealthController : MonoBehaviour
     {
         CurrentDamageTimer = Mathf.MoveTowards(CurrentDamageTimer, 0, Time.deltaTime);
         HealthGen(HealthGenSpeed);
+
+        if (HealthBar != null)
+        {
+            HealthBar.fillAmount = CurrentHealth / MaxHealth;
+        }
 
         //Debug.Log(Health);
     }
