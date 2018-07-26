@@ -14,7 +14,10 @@ public class HealthController : MonoBehaviour
     public float DamageTimer;
     private float CurrentDamageTimer;
 
+    private int Score = 0;
+
     public Image HealthBar;
+    public Text ScoreText;
 
     public void TakeDamage(float DamageAmount)
     {
@@ -23,7 +26,17 @@ public class HealthController : MonoBehaviour
 
         if (CurrentHealth == 0)
         {
-            Destroy(gameObject);
+            PlayerController player = GetComponent<PlayerController>();
+            if (player != null)
+            {
+                player.die();
+            }
+            else
+            {
+                Destroy(gameObject);
+                Score++;
+                ScoreText.text = Score.ToString();
+            }
         }
     }
 

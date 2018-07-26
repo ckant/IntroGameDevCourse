@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour
 
     private Camera cam;
 
+    private GameUIController uiController;
+
     public GunController gun;
 
     // Use this for initialization
@@ -35,11 +38,12 @@ public class PlayerController : MonoBehaviour
         RB = GetComponent<Rigidbody>();
 
         cam = GameObject.FindObjectOfType<Camera>();
-
-        if (cam == null)
-        {
-            Debug.Log("No Camera");
-        }
+        uiController = GameObject.FindObjectOfType<GameUIController>();
+    }
+    public void die()
+    {
+        gameObject.SetActive(false);
+        uiController.LoadGameOver();
     }
 
     public void updateAnim()

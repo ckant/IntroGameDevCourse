@@ -11,7 +11,6 @@ public class HitboxManager : MonoBehaviour {
         bool isPlayer = other.gameObject.CompareTag("Player");
         if (healthController != null && isPlayer)
         {
-            Debug.Log("Took damage");
             healthController.TakeDamage(DamageAmount);
         }
     }

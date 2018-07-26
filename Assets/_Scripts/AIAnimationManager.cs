@@ -9,13 +9,11 @@ public class AIAnimationManager : MonoBehaviour
 
     public void StartAttack()
     {
-        Debug.Log("Enabled hitbox");
         Hitbox.SetActive(true);
     }
 
     public void EndDamage()
     {
-        Debug.Log("Disabled hitbox");
         Hitbox.SetActive(false);
     }
 

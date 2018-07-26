@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GunController : MonoBehaviour
 {
     public int Mag = 20;
+    public Text MagText;
 
     public float FireRate = .1f;
 
@@ -26,6 +28,11 @@ public class GunController : MonoBehaviour
         }
     }
 
+    private void UpdateHud()
+    {
+        MagText.text = Mag.ToString();
+    }
+
 	// Use this for initialization
 	void Start()
     {
@@ -36,5 +43,6 @@ public class GunController : MonoBehaviour
 	void Update()
     {
         SetFireDelay = Mathf.Clamp(SetFireDelay - Time.deltaTime, 0f, Mathf.Infinity);
-	}
+        UpdateHud();
+    }
 }
