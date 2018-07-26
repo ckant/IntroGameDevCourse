@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
 
     public void handleMovement()
     {
-        RB.AddForce(IP * Time.deltaTime * AccelerationSpeed);
+        RB.AddRelativeForce(IP * Time.deltaTime * AccelerationSpeed);
 
         RB.velocity = new Vector3(
             Mathf.Clamp(RB.velocity.x, -MaxSpeed, MaxSpeed), 
