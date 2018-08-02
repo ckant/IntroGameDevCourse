@@ -14,10 +14,9 @@ public class HealthController : MonoBehaviour
     public float DamageTimer;
     private float CurrentDamageTimer;
 
-    private int Score = 0;
+    private GameUIController uiController;
 
     public Image HealthBar;
-    public Text ScoreText;
 
     public void TakeDamage(float DamageAmount)
     {
@@ -33,9 +32,9 @@ public class HealthController : MonoBehaviour
             }
             else
             {
-                Destroy(gameObject);
-                Score++;
-                ScoreText.text = Score.ToString();
+                AIMonsterController aiMonster = GetComponent<AIMonsterController>();
+                aiMonster.die();
+                uiController.IncrementScore();
             }
         }
     }
@@ -54,10 +53,12 @@ public class HealthController : MonoBehaviour
     {
         CurrentHealth = MaxHealth;
         CurrentDamageTimer = 0;
+
+        uiController = GameObject.FindObjectOfType<GameUIController>();
     }
-	
-	// Update is called once per frame
-	void Update()
+
+    // Update is called once per frame
+    void Update()
     {
         CurrentDamageTimer = Mathf.MoveTowards(CurrentDamageTimer, 0, Time.deltaTime);
         HealthGen(HealthGenSpeed);

@@ -19,6 +19,7 @@ public class AIMonsterController : MonoBehaviour
     public Animator Anim;
 
     private Rigidbody RB;
+    private AISpawnerController spawner;
 
 	// Use this for initialization
 	void Start()
@@ -34,6 +35,14 @@ public class AIMonsterController : MonoBehaviour
         agent.SetDestination(Target.transform.position);
 
         CurrentAttackCooldown = 0;
+
+        spawner = GetComponent<AISpawnerController>();
+    }
+
+    public void die()
+    {
+        spawner.spawn();
+        Destroy(gameObject);
     }
 
     private void updateAnim()
